@@ -1,0 +1,25 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      - 8010:8010
+    volumes:
+      - ./host_volume:/internal_volume
+      - media:/media
+    networks:
+      - "srv_1_and_srv_2"
+  neighbour:
+    image: curlimages/curl:latest
+    entrypoint: ["curl", "-s", "backend:8010"]
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - "srv_1_and_srv_2"
+volumes:
+  media:
+networks:
+  srv_1_and_srv_2:
+    external: True
