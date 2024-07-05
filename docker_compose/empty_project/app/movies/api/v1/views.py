@@ -15,6 +15,18 @@ class MovieDetailView(BaseDetailView):
         except FilmWork.DoesNotExist:
             return None
 
+    def get_context_data(self, pk, **kwargs):
+        movie = self.get_queryset(pk=pk)
+        context = {
+            'id': movie.id,
+            'title': movie.title,
+            'description': movie.description,
+            'creation_date': movie.creation_date,
+            'rating': movie.rating,
+            'type': movie.type,
+        }
+        return context
+
     def get(self, request, pk):
         try:
             context = self.get_context_data(pk=pk)
