@@ -1,0 +1,8 @@
+FROM postgres:16
+
+ENV POSTGRES_PASSWORD=123qwe
+ENV POSTGRES_USER=app
+ENV POSTGRES_DB=movies_database
+
+VOLUME /var/lib/postgresql/data
+
