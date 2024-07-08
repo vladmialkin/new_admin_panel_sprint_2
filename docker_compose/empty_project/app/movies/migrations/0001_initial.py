@@ -101,4 +101,9 @@ class Migration(migrations.Migration):
                 'db_table': 'content"."person_film_work',
             },
         ),
+        migrations.RunSQL(
+            """
+            ALTER ROLE app SET search_path TO content,public;
+            """
+        ),
     ]

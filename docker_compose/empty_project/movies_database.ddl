@@ -44,3 +44,5 @@ ON content.person_film_work (film_work_id, person_id, role);
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_genre_film_work_unique
 ON content.genre_film_work (film_work_id, genre_id);
+
+ALTER ROLE app SET search_path TO content,public;

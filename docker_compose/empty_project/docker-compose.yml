@@ -27,7 +27,10 @@ services:
         condition: service_healthy
     expose:
       - "8000"
-
+    env_file:
+      - ./app/config/.env
+    command: >
+     sh -c "./manage.py migrate && . ./run_uwsgi.sh"
     networks:
       - new_network
 

@@ -18,7 +18,7 @@ class CustomTypeField(models.TextChoices):
 
 class Genre(UUIDMixin, TimeStampedMixin):
     name = models.TextField(verbose_name=_('name'))
-    description = models.TextField(verbose_name=_('description'), blank=True)
+    description = models.TextField(verbose_name=_('description'), null=True, blank=True)
 
     class Meta:
         db_table = "content\".\"genre"
@@ -38,7 +38,7 @@ class FilmWork(UUIDMixin, TimeStampedMixin):
     file_path = models.FileField(blank=True, null=True, upload_to='movies/', verbose_name=_('file'))
     type = models.CharField(
         verbose_name=_('type'),
-        max_length=2,
+        max_length=20,
         choices=CustomTypeField.choices,
         default=CustomTypeField.MOVIE,
     )
