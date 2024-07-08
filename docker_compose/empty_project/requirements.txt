@@ -1,0 +1,8 @@
+django==5.0.6
+uwsgi==2.0.26
+typing-extensions==4.12.2
+psycopg==3.1.18
+python-dotenv==1.0.1
+split-settings==1.0.0
+django-debug-toolbar==4.4.3
+ django-cors-headers==4.4.0

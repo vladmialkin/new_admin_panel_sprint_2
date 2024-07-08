@@ -1,0 +1,63 @@
+version: '3'
+services:
+  database:
+    container_name: 'database'
+    build:
+      context: .
+      dockerfile: Dockerfile_postgres
+    expose:
+      - "5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    networks:
+      - new_network
+
+  backend:
+    container_name: 'backend'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    expose:
+      - "8000"
+
+    networks:
+      - new_network
+
+  swagger:
+    container_name: swagger
+    image: swaggerapi/swagger-ui
+    expose:
+      - "8080"
+    volumes:
+      - ./openapi.yaml:/swagger.yaml
+    environment:
+      - SWAGGER_JSON=/swagger.yaml
+    networks:
+      - new_network
+
+  proxy:
+    container_name: 'nginx'
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/configs:/etc/nginx/conf.d:ro
+      - ./data:/data/:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - new_network
+
+networks:
+  new_network:
+    external: True
