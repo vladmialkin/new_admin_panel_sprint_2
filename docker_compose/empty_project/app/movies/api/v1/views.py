@@ -54,4 +54,4 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
         return context
 
     def get_queryset(self):
-        return FilmWork.objects.all().values('pk', 'title', 'description', 'genres')
+        return FilmWork.objects.all().prefetch_related('genres').values('pk', 'title', 'description', 'genres')
